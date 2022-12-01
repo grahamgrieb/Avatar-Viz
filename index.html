@@ -4,15 +4,15 @@
 <style>
     .line {
         fill: none;
-        stroke: steelblue;
+        stroke: rgb(13, 51, 244);
         stroke-width: 2px;
     }
 
     div.tooltip {
         position: absolute;
         text-align: center;
-        width: 400px;
-        height: 150px;
+        width: 200px;
+        height: 100px;
         padding: 2px;
         font: 12px sans-serif;
         background: rgb(220, 115, 115);
@@ -453,8 +453,26 @@
             else if (char == "Toph") {
                 return "green"
             }
-            else {
-                return "yellow"
+            else if (char == "Katara"){
+                return "#0080FF"
+            }
+            else if (char == "Zuko"){
+                return "#CC0000"
+            }
+            else if (char == "Iroh"){
+                return "#660000"
+            }
+            else if (char == "Azula"){
+                return "#00FFFF"
+            }
+            else if (char == "Jet"){
+                return "#808080"
+            }
+            else if (char == "Suki"){
+                return "#006633"
+            }
+            else if (char == "Zhao"){
+                return "#FF9999"
             }
         }
         function updatePi() {
@@ -707,7 +725,7 @@
 
         // Episode Sentiment Script
         var data
-        fetch('sent-chart@8.csv').then(async (data) => {
+        fetch('sent-chart@10.csv').then(async (data) => {
             const raw_csv_data = await data.text();
             const first_eol = raw_csv_data.indexOf('\n');
             data = d3.csvParse(raw_csv_data);
