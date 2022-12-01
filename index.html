@@ -133,7 +133,7 @@
         <h1>Avatar the Last Airbender Visualization Experience</h1>
         <h2>Created by Graham Grieb & Nicket Mauskar</h2>
     </div>
-    <div style="position: fixed;top: 350;right: 200;">
+    <div style="position: sticky; float:right; top: 2; right:40; border:solid; background-color: white; padding:7; margin:3;">
         <input type="checkbox" id="Aang" data="0" onchange="checkboxUpdate(event)" checked="true">
         <txt>Aang</label></txt></br>
         <input type="checkbox" id="Sokka" data="1" onchange="checkboxUpdate(event)">
@@ -160,20 +160,24 @@
     <h2 class="w3-opacity"><i>How do the characters relevance change throughout the show? </i></h2>
     <p class="w3-justify">Hover over the graph or utilize the checkboxes for an interactive experience!</p>
     <svg id="line_chart"></svg>
+</br>
+    <hr>
     </br>
 
     <h2 class="w3-opacity"><i>What words do our favorite characters say the most? </i></h2>
     <p class="w3-justify">Utilize the checkboxes to see different combinations of characters and their most
         popular words!</p>>
-    <div id="top_words_list" style="margin: auto; width: 800;"></div>
-    </br>
-
+    <div id="top_words_list" style="margin: auto; width: 80%;"></div>
+    
+    <hr>
+</br>
     <h2 class="w3-opacity"><i>Who are the more positive and negative characters </i></h2>
     <p class="w3-justify">Utilize the checkboxes to see different combinations of characters and their most
         popular words!</p>>
     <svg id="sentiment_violins" style="display: block; margin: auto;"></svg>
     </br>
-
+    <hr>
+</br>
     <h2 class="w3-opacity"><i>Which are the happiest and saddest episodes? </i></h2>
     <p class="w3-justify"> Hover over the bars for a quick refresher on what the episode is about!
     </p>>
@@ -460,23 +464,29 @@
         }
         dfd.readCSV("word_counts_per_character.csv")
             .then(df => {
-                d3.select("#top_words_list").append("p")
-                    .attr("style", "text-align: center;")
-                    .text("Top Words For Character Selection:")
+               
 
                 d3.select("#top_words_list").append("div")
                     .attr("id", "flexb")
-                    .attr("style", "display: flex;")
-                top_words = d3.select("#flexb").append("ol")
-                    .attr("style", " flex: 1; margin:auto;")
-                //.attr("style","display:inline-block;")
-                //d3.select("#top_words_list").append("br")
+                    .attr("style", "display: flex;  align-items: start; ")
+                top_words = d3.select("#flexb").append("div")
+                .attr("style", " flex: 1; margin:auto;")
+                top_words = d3.select("#flexb").append("div")
+                    .attr("id","toplist1")
+                    .attr("style", " flex: 2; margin:auto;")
+
+                d3.select("#toplist1").append("p")
+                    .attr("style", "text-align: center; font-size:140%")
+                    .text("Top Words For Character Selection:")
+                    
+                top_words = d3.select("#toplist1").append("ol")
+                
 
                 pi_svg = d3.select("#flexb").append("svg")
                     .attr("class", "tooltip-donut")
                     .attr("width", 300)
                     .attr("height", 400)
-                    .attr("style", " flex: 4;")
+                    .attr("style", " flex: 3;")
 
                 pi_div = pi_svg.append("g")
                     .attr("transform", "translate(" + 300 + "," + 200 + ")")
@@ -531,10 +541,10 @@
                 .join("li")
                 .attr('style', (x, i) => {
                     if (i == 0) {
-                        return 'border-style: solid;  width: fit-content; margin:auto;'
+                        return 'border-style: solid;  width: fit-content; margin:auto; font-size:120%;'
                     }
                     else {
-                        return "width: fit-content;margin: auto;";
+                        return "width: fit-content;margin: auto;font-size:120%;";
                     }
 
                 })
@@ -543,10 +553,10 @@
                 })
                 .on('mouseover', function (d, i) {
 
-                    d3.selectAll(this.parentNode.childNodes).attr('style', 'width: fit-content; margin: auto;');
+                    d3.selectAll(this.parentNode.childNodes).attr('style', 'width: fit-content; margin: auto;font-size:120%;');
                     d3.select(this).transition()
                         .duration('50')
-                        .attr('style', 'border-style: solid;  width: fit-content; margin: auto;');
+                        .attr('style', 'border-style: solid;  width: fit-content; margin: auto;font-size:120%;');
                     //Makes the new div appear on hover:
                     selected_word = d.srcElement.innerHTML
                     updatePi()
@@ -631,13 +641,15 @@
             pi_div.selectAll('text').remove()
             pi_div.append("text")
                 .text("Character Breakdown for \"" + selected_word + '\"')
+                .attr("style","font-size:140%;")
                 .attr("transform", "translate(" + -95 + "," + -140 + ")");
             pi_div
                 .selectAll('allLabels')
                 .data(pie(char_counts))
                 .enter()
                 .append('text')
-                .text(function (d) { console.log(d.data[0]); return d.data[0] })
+                .attr('style',"font-size:112%")
+                .text(function (d) {return d.data[0]+"- "+d.data[1] })
                 .attr('transform', function (d) {
                     var pos = outerArc.centroid(d);
                     var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
@@ -916,11 +928,11 @@
 
 
             var g = svg2.append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + 110+ "," + margin.top + ")")
 
 
             var x = d3.scaleLinear()
-                .range([0, width]);
+                .range([0, width*2]);
 
 
             var colour = d3.scaleSequential(d3.interpolate("red", "green"));
@@ -930,10 +942,12 @@
                 .padding(0.1);
 
 
-
-            var legend = g.append("g")
+            var svg2 = g.append("text").text("Polarity")
+            .attr("x", width/2-10)
+            .attr("y", height+35)
+            /*var legend = g.append("g")
                 .attr("class", "legend");
-
+            
             legend.append("text")
                 .attr("x", width - 5)
                 .attr("text-anchor", "end")
@@ -944,14 +958,14 @@
                 .attr("y", 20)
                 .attr("text-anchor", "end")
                 .style("opacity", 0.5)
-                .text("Episode Sentiment");
+                .text("Episode Sentiment");*/
 
 
 
 
 
             y.domain(data1.map(function (d) { return d["ep_name"]; }));
-            x.domain([-.05, .28]);
+            x.domain([-.3, .3]);
 
             var yAxis = g.append("g")
                 .attr("class", "y-axis")
