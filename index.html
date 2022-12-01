@@ -5,6 +5,7 @@
     .line {
         fill: none;
         stroke: rgb(13, 51, 244);
+      
         stroke-width: 2px;
     }
 
@@ -99,6 +100,7 @@
         /* center the text */
         background-image: url("https://i.pinimg.com/originals/82/32/b3/8232b3c4da69aab2fb4cc1ca7aa2a71d.png");
         background-color: #cccccc;
+        
         background-size: cover;
         font-family: Herculanum;
         color: black;
@@ -171,7 +173,7 @@
     </br>
     <hr>
     <h2 class="w3-opacity"><i>Who are the more positive and negative characters? </i></h2>
-    <p class="w3-justify">Utilize the checkboxes to see how "happy" or "sad" your favorite characters are!</p>
+    <p class="w3-justify">Utilize the checkboxes to see how "happy"(higher) or "sad"(lower) your favorite characters are!</p>
     <svg id="sentiment_violins" style="display: block; margin: auto;"></svg>
     </br>
     <hr>
@@ -528,7 +530,7 @@
                 return second[1] - first[1];
 
             });
-            items = items.slice(0, 5)
+            items = items.slice(0, 10)
             selected_word = items[0][0]
             updatePi()
 
@@ -540,24 +542,23 @@
                 .join("li")
                 .attr('style', (x, i) => {
                     if (i == 0) {
-                        return 'border-style: solid;  width: fit-content; margin:auto; font-size:120%;'
+                        return ' width: fit-content; margin:auto; font-size:120%; padding:2; background-color:rgb(195, 195, 195);'
                     }
                     else {
-                        return "width: fit-content;margin: auto;font-size:120%;";
+                        return "width: fit-content;margin: auto;font-size:120%;padding:2;";
                     }
 
                 })
                 .text(d => {
-                    return d[0]
+                    return d[0]+" - "+ d[1]
                 })
                 .on('mouseover', function (d, i) {
 
-                    d3.selectAll(this.parentNode.childNodes).attr('style', 'width: fit-content; margin: auto;font-size:120%;');
-                    d3.select(this).transition()
-                        .duration('50')
-                        .attr('style', 'border-style: solid;  width: fit-content; margin: auto;font-size:120%;');
+                    d3.selectAll(this.parentNode.childNodes).attr('style', 'background-color:white; width: fit-content; margin: auto;font-size:120%;padding:2;');
+                    d3.select(this)
+                        .attr('style', 'background-color:rgb(195, 195, 195);  width: fit-content; margin: auto;font-size:120%;padding:2;');
                     //Makes the new div appear on hover:
-                    selected_word = d.srcElement.innerHTML
+                    selected_word = d.srcElement.innerHTML.split(" -")[0]
                     updatePi()
                 })
 
@@ -648,7 +649,7 @@
                 .enter()
                 .append('text')
                 .attr('style',"font-size:112%")
-                .text(function (d) {return d.data[0]+"- "+d.data[1] })
+                .text(function (d) {return d.data[0]+" - "+d.data[1] })
                 .attr('transform', function (d) {
                     var pos = outerArc.centroid(d);
                     var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
