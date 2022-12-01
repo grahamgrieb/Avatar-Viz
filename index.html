@@ -24,19 +24,13 @@
         transition-duration: 0.3s;
         background-color: white;
         cursor: pointer;
+        vertical-align: middle;
+        margin-bottom: 10px;
 
     }
-
-
-    /*input[type=checkbox]:checked+span::before {
-        content: '\2713';
-        display: block;
-        text-align: center;
-        color: white;
-        position: absolute;
-        left: 0.7rem;
-        top: 0.2rem;
-    }*/
+    txt{
+        font-size: 120%;
+    }
 
     #Aang:checked {
         background-color: orange;
@@ -118,11 +112,13 @@
     }
 
     h2 {
+        text-align: center;
         font-size: 30px;
         font-family: Herculanum;
     }
 
     p {
+        text-align: center;
         font-size: 15px;
         font-family: 'Times New Roman', Times, serif;
 
@@ -136,7 +132,7 @@
     </div>
     <div style="position: fixed;top: 350;right: 200;">
         <input type="checkbox" id="Aang" data="0" onchange="checkboxUpdate(event)" checked="true">
-        <txt>Aang</txt></br>
+        <txt>Aang</label></txt></br>
         <input type="checkbox" id="Sokka" data="1" onchange="checkboxUpdate(event)">
         <txt>Sokka</txt></br>
         <input type="checkbox" id="Katara" data="2" onchange="checkboxUpdate(event)">
@@ -414,38 +410,16 @@
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
                 .attr("dy", "0.9em");
+            
 
-            const serie2 = rule.append("text")
-                .attr("x", 10)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr("dy", "2em");
-            const serie3 = rule.append("text")
-                .attr("x", 10)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr("dy", "3em");
-            const serie4 = rule.append("text")
-                .attr("x", 10)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr("dy", "4em");
-            const serie5 = rule.append("text")
-                .attr("x", 10)
-                .attr("fill", "currentColor")
-                .attr("text-anchor", "middle")
-                .attr("dy", "5em");
+            Epnames = ["The Boy in the Iceberg","The Avatar Returns","The Southern Air Temple","The Warriors of Kyoshi","The King of Omashu","Imprisoned","The Spirit World (Winter Solstice, Part 1)","Avatar Roku (Winter Solstice, Part 2)","The Waterbending Scroll","Jet","The Great Divide","The Storm","The Blue Spirit","The Fortuneteller","Bato of the Water Tribe","The Deserter","The Northern Air Temple","The Waterbending Master","The Siege of the North, Part 1","The Siege of the North, Part 2","The Avatar State","The Cave of Two Lovers","Return to Omashu","The Swamp","Avatar Day","The Blind Bandit","Zuko Alone","The Chase","Bitter Work","The Library","The Desert","The Serpent's Pass","The Drill","City of Walls and Secrets","The Tales of Ba Sing Se","Appa's Lost Days","Lake Laogai","The Earth King","The Guru","The Crossroads of Destiny","The Awakening","The Headband","The Painted Lady","Sokka's Master","The Beach","The Avatar and the Firelord","The Runaway","The Puppetmaster","Nightmares and Daydreams","The Day of Black Sun, Part 1: The Invasion","The Day of Black Sun, Part 2: The Eclipse","The Western Air Temple","The Firebending Masters","The Boiling Rock, Part 1","The Boiling Rock, Part 2","The Southern Raiders","The Ember Island Players","Sozin's Comet, Part 1","Sozin's Comet, Part 2","Sozin's Comet, Part 3","Sozin's Comet, Part 4"]
 
             function update(x) {
                 x = Xs[d3.bisectCenter(Xs, x)];
                 rule.attr("transform", `translate(${xScale(x)},0)`);
                 ruleLabel.text(x);
                 var i = I[d3.bisector(i => X1[i]).center(I, x)];
-                serie.text(zDomain[0] + ": " + Y1[i] + ", " + zDomain[1] + ": " + Y2[i]);// *************
-                serie2.text(zDomain[2] + ": " + Y3[i] + ", " + zDomain[3] + ": " + Y4[i]);// *************
-                serie3.text(zDomain[4] + ": " + Y5[i] + ", " + zDomain[5] + ": " + Y6[i]);// *************
-                serie4.text(zDomain[6] + ": " + Y7[i] + ", " + zDomain[7] + ": " + Y8[i]);// *************
-                serie5.text(zDomain[8] + ": " + Y9[i] + ", " + zDomain[9] + ": " + Y10[i]);// *************
+                serie.text(Epnames[x-1])
 
                 svg.property("value", x).dispatch("input", { bubbles: true }); // for viewof
             }
