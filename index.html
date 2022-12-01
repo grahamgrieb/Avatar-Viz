@@ -106,14 +106,14 @@
     }
 
     /* Increase the font size of the <h1> element */
-    .header h1 {
+    h1 {
         font-family: Herculanum;
         font-size: 60px;
     }
 
     h2 {
         text-align: center;
-        font-size: 30px;
+        font-size: 50px;
         font-family: Herculanum;
     }
     .w3-wide{
@@ -122,7 +122,7 @@
 
     p {
         text-align: center;
-        font-size: 15px;
+        font-size: 25px;
         font-family: 'Times New Roman', Times, serif;
     }
 
@@ -168,12 +168,10 @@
     <p class="w3-justify">Utilize the checkboxes to see different combinations of characters and their most
         popular words!</p>>
     <div id="top_words_list" style="margin: auto; width: 80%;"></div>
-    
-    <hr>
-</br>
-    <h2 class="w3-opacity"><i>Who are the more positive and negative characters </i></h2>
-    <p class="w3-justify">Utilize the checkboxes to see different combinations of characters and their most
-        popular words!</p>>
+    </br>
+
+    <h2 class="w3-opacity"><i>Who are the more positive and negative characters? </i></h2>
+    <p class="w3-justify">Utilize the checkboxes to see how "happy" or "sad" your favorite characters are!</p>>
     <svg id="sentiment_violins" style="display: block; margin: auto;"></svg>
     </br>
     <hr>
@@ -282,7 +280,7 @@
                 xRange = [marginLeft, width - marginRight], // [left, right]
                 xLabel,// a label for the x-axis
                 yType = d3.scaleLinear, // the y-scale type
-                yDomain = [0, 800], // [ymin, ymax]
+                yDomain = [0, 900], // [ymin, ymax]
                 yRange = [height - marginBottom, marginTop], // [bottom, top]
                 color = "currentColor" // stroke color of line
 
@@ -400,8 +398,8 @@
             const rule = svg.append("g");
 
             rule.append("line")
-                .attr("y1", marginTop + 100)
-                .attr("y2", height - marginBottom - 15)
+                .attr("y1", marginTop)
+                .attr("y2", height - marginBottom)
                 .attr("stroke", "#aaa")
                 .attr("stroke-width", 2.5)
                 .attr("stroke-opacity", 0.75);
@@ -416,7 +414,8 @@
                 .attr("x", 10)
                 .attr("fill", "currentColor")
                 .attr("text-anchor", "middle")
-                .attr("dy", "0.9em");
+                .attr("dy", "0.9em")
+                .style("font", "18px times");
             
 
             Epnames = ["The Boy in the Iceberg","The Avatar Returns","The Southern Air Temple","The Warriors of Kyoshi","The King of Omashu","Imprisoned","The Spirit World (Winter Solstice, Part 1)","Avatar Roku (Winter Solstice, Part 2)","The Waterbending Scroll","Jet","The Great Divide","The Storm","The Blue Spirit","The Fortuneteller","Bato of the Water Tribe","The Deserter","The Northern Air Temple","The Waterbending Master","The Siege of the North, Part 1","The Siege of the North, Part 2","The Avatar State","The Cave of Two Lovers","Return to Omashu","The Swamp","Avatar Day","The Blind Bandit","Zuko Alone","The Chase","Bitter Work","The Library","The Desert","The Serpent's Pass","The Drill","City of Walls and Secrets","The Tales of Ba Sing Se","Appa's Lost Days","Lake Laogai","The Earth King","The Guru","The Crossroads of Destiny","The Awakening","The Headband","The Painted Lady","Sokka's Master","The Beach","The Avatar and the Firelord","The Runaway","The Puppetmaster","Nightmares and Daydreams","The Day of Black Sun, Part 1: The Invasion","The Day of Black Sun, Part 2: The Eclipse","The Western Air Temple","The Firebending Masters","The Boiling Rock, Part 1","The Boiling Rock, Part 2","The Southern Raiders","The Ember Island Players","Sozin's Comet, Part 1","Sozin's Comet, Part 2","Sozin's Comet, Part 3","Sozin's Comet, Part 4"]
@@ -424,7 +423,7 @@
             function update(x) {
                 x = Xs[d3.bisectCenter(Xs, x)];
                 rule.attr("transform", `translate(${xScale(x)},0)`);
-                ruleLabel.text(x);
+                //ruleLabel.text(x);
                 var i = I[d3.bisector(i => X1[i]).center(I, x)];
                 serie.text(Epnames[x-1])
 
