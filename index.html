@@ -20,29 +20,31 @@
         border-radius: 8px;
         pointer-events: none;
     }
-    .header {
-  padding: 100px; /* some padding */
-  text-align: center; /* center the text */
-  background-image: url("http://i.imgur.com/YCfWJGx.jpg");
- background-color: #cccccc;
-  background-size: cover;
-  color: white; /* white text color */
-}
 
-/* Increase the font size of the <h1> element */
-.header h1 {
-  font-size: 40px;
-}
+    .header {
+        padding: 100px;
+        /* some padding */
+        text-align: center;
+        /* center the text */
+        background-image: url("http://i.imgur.com/YCfWJGx.jpg");
+        background-color: #cccccc;
+        background-size: cover;
+        color: white;
+        /* white text color */
+    }
+
+    /* Increase the font size of the <h1> element */
+    .header h1 {
+        font-size: 40px;
+    }
 </style>
 
 <body>
     <div class="header">
         <h1>Avatar the Last Airbender Visualization Experience</h1>
         <p>Created by Graham Grieb</p>
- </div>
-    <div style="position: fixed;
-    top: 350;
-    right: 400;">
+    </div>
+    <div style="position: fixed;top: 350;right: 400;">
         <txt>Aang</txt><input type="checkbox" id="Aang" data="0" onchange="checkboxUpdate(event)" checked="true"></br>
         <txt>Sokka</txt><input type="checkbox" id="Sokka" data="1" onchange="checkboxUpdate(event)"></br>
         <txt>Katara</txt><input type="checkbox" id="Katara" data="2" onchange="checkboxUpdate(event)"></br>
@@ -52,10 +54,16 @@
         <txt>Azula</txt><input type="checkbox" id="Azula" data="6" onchange="checkboxUpdate(event)"></br>
         <txt>Jet</txt><input type="checkbox" id="Jet" data="7" onchange="checkboxUpdate(event)"></br>
         <txt>Suki</txt><input type="checkbox" id="Suki" data="8" onchange="checkboxUpdate(event)"></br>
-        <txt>Zhao</txt><input type="checkbox" id="Zhao" data="9" onchange="checkboxUpdate(event)"></br>
-        <txt>Mai</txt><input type="checkbox" id="Mai" data="10" onchange="checkboxUpdate(event)"></br>
-        <txt>Hakoda</txt><input type="checkbox" id="Hakoda" data="11" onchange="checkboxUpdate(event)">
+        <txt>Zhao</txt><input type="checkbox" id="Zhao" data="9" onchange="checkboxUpdate(event)">
     </div>
+    <svg id="line_chart"></svg>
+</br>
+    <div id="top_words_list"></div>
+</br>
+    <svg id="sentiment_violins"></svg>
+</br>
+    <svg id="sentiment_bars"></svg>
+    
 
     <!-- d3 v7 integration -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -81,8 +89,8 @@
         var Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, Y9, Y10
         var word_counts_per_character;
         var arc = d3.arc()
-                        .outerRadius(100)
-                        .innerRadius(0);
+            .outerRadius(100)
+            .innerRadius(0);
         function checkboxUpdate(e) {
             if (e.target.checked) {
                 selected.push(e.target.id)
@@ -191,7 +199,7 @@
                 .x((y, i) => xScale(X1[i]))
                 .y((y, i) => yScale(y));
 
-            svg = d3.select("body").append("svg")
+            svg = d3.select("#line_chart")
                 .attr("width", width)
                 .attr("height", height)
                 .attr("viewBox", [0, 0, width, height])
@@ -352,15 +360,15 @@
         }
         dfd.readCSV("word_counts_per_character.csv")
             .then(df => {
-                d3.select("body").append("br")
 
 
-                d3.select("body").append("text")
+
+                d3.select("#top_words_list").append("text")
                     .text("Top Words For Character Selection:")
-                top_words = d3.select("body").append("ol")
-                d3.select("body").append("br")
+                top_words = d3.select("#top_words_list").append("ol")
+                d3.select("#top_words_list").append("br")
 
-                pi_svg = d3.select("body").append("svg")
+                pi_svg = d3.select("#top_words_list").append("svg")
                     .attr("class", "tooltip-donut")
                     .attr("width", 300)
                     .attr("height", 300)
@@ -402,7 +410,7 @@
 
             });
             items = items.slice(0, 5)
-            selected_word=items[0][0]
+            selected_word = items[0][0]
             updatePi()
 
             var list = top_words.selectAll("li")
@@ -411,29 +419,29 @@
             list
 
                 .join("li")
-                .attr('style',(x,i)=>{
-                    if(i==0){
+                .attr('style', (x, i) => {
+                    if (i == 0) {
                         return 'border-style: solid;  width: fit-content;'
                     }
-                    else{
+                    else {
                         return "width: fit-content;";
                     }
-                    
+
                 })
                 .text(d => {
                     return d[0]
                 })
                 .on('mouseover', function (d, i) {
-                    
+
                     d3.selectAll(this.parentNode.childNodes).attr('style', 'width: fit-content;');
                     d3.select(this).transition()
                         .duration('50')
                         .attr('style', 'border-style: solid;  width: fit-content;');
                     //Makes the new div appear on hover:
-                    selected_word=d.srcElement.innerHTML
+                    selected_word = d.srcElement.innerHTML
                     updatePi()
                 })
-                
+
         }
         function charColor(char) {
             if (char == "Aang") {
@@ -449,38 +457,38 @@
                 return "yellow"
             }
         }
-        function updatePi(){
-                    char_counts = []
-                    selectedBool.forEach((x, i) => {
-                        if (x) {
-                            char_counts.push([zDomain[i], word_counts_per_character[selected_word].$data[i + 1]])
-                        }
-                    })
+        function updatePi() {
+            char_counts = []
+            selectedBool.forEach((x, i) => {
+                if (x) {
+                    char_counts.push([zDomain[i], word_counts_per_character[selected_word].$data[i + 1]])
+                }
+            })
 
-                    var pie = d3.pie().value(function (d) {
-                        return d[1];
-                    })
-                        .sort(function (a, b) {
-                            console.log(a)
-                            return d3.ascending(a[0], b[0]);
-                        })
+            var pie = d3.pie().value(function (d) {
+                return d[1];
+            })
+                .sort(function (a, b) {
+                    console.log(a)
+                    return d3.ascending(a[0], b[0]);
+                })
 
-                   
-                    var path = pi_div.selectAll("path")
-                        .data(pie(char_counts))
 
-                    path
+            var path = pi_div.selectAll("path")
+                .data(pie(char_counts))
 
-                        .join("path")
-                        //.transition()
-                        //.duration(500)
-                        .attr("d", arc)
-                        .attr("fill", "red")
-                        .attr("fill", function (d) {
-                            return charColor(d.data[0])
-                        })
+            path
+
+                .join("path")
+                //.transition()
+                //.duration(500)
+                .attr("d", arc)
+                .attr("fill", "red")
+                .attr("fill", function (d) {
+                    return charColor(d.data[0])
+                })
         }
-       
+
 
 
 
@@ -519,10 +527,10 @@
         function updateViolin(data_) {
 
             domain = selected
-            if (typeof(myVariable) == "undefined"){
+            if (typeof (myVariable) == "undefined") {
                 svg1.selectAll("g").remove()
-                .transition()
-                .duration(500);
+                    .transition()
+                    .duration(500);
             }
             /*
             if (svg1.selectAll("g"))
@@ -604,10 +612,10 @@
 
             rawdata = dataV
 
-            document.body.insertBefore(document.createElement("br"), document.getElementById("ViolinPlotAvatar"));
+            //document.body.insertBefore(document.createElement("br"), document.getElementById("ViolinPlotAvatar"));
             //updateViolin(rawdata)
-            
-            svg1 = d3.select("body").append("svg")
+
+            svg1 = d3.select("#sentiment_violins")
                 .attr("width", dimensionsV.width + dimensionsV.margin.left + dimensionsV.margin.right)
                 .attr("height", dimensionsV.height + dimensionsV.margin.top + dimensionsV.margin.bottom)
                 .append("g")
@@ -641,7 +649,7 @@
             let bins
             let colors = d3.schemeTableau10 // array of categorical colors,
 
-            
+
             var sumstat = d3.flatRollup(dataV, function (d) {   // For each key..
                 input = d.map(function (g) { if (g.pol != 0 & domain.includes(g.char)) { return g.pol; } })    // Keep the variable called Sepal_Length
                 bins = histogram(input)   // And compute the binning on it.
@@ -649,8 +657,8 @@
             }, function (d) { if (domain.includes(d.char)) { return d.char; } });
             sumstat = sumstat.slice(-5)
             console.log(sumstat)
-            
-           sumstat = sumstatter(dataV, domain)
+
+            sumstat = sumstatter(dataV, domain)
 
             let maxNum = 0
             let allBins
@@ -673,7 +681,7 @@
                 .data(sumstat)
                 .enter()        // So now we are working group per group
                 .append("g")
-                .attr("transform", function (d) {return ("translate(" + x(d[0]) + " ,0)") })
+                .attr("transform", function (d) { return ("translate(" + x(d[0]) + " ,0)") })
                 .append("path")
                 .datum(function (d) { return (d[1]) })     // So now we are working bin per bin
                 .style("stroke", "none")
@@ -685,7 +693,7 @@
                     .y(function (d) { return (y(d.x0)) })
                     .curve(d3.curveCatmullRom)
                 )
-                
+
 
 
         }
@@ -715,7 +723,7 @@
             var width = 960 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
 
-            var svg2 = d3.select("body").append("svg")
+            var svg2 = d3.select("#sentiment_bars")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .attr("style", "border:1px solid black")
