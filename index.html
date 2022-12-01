@@ -685,10 +685,11 @@
                 .append("g")
                 .attr("transform", function (d) { return ("translate(" + x(d[0]) + " ,0)") })
                 .append("path")
+                .style("fill", (d, i) => {
+                    return charColor(d[0])})
+                .attr("class", (d, i) => d[0])
                 .datum(function (d) { return (d[1]) })     // So now we are working bin per bin
                 .style("stroke", "none")
-                .style("fill", (d, i) => colors[i])
-                .attr("class", (d, i) => domain[i])
                 .attr("d", d3.area()
                     .x0(function (d) { return (xNum(-d.length)) })
                     .x1(function (d) { return (xNum(d.length)) })
