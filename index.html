@@ -169,12 +169,12 @@
 
     <h2 class="w3-opacity"><i>What words do our favorite characters say the most? </i></h2>
     <p class="w3-justify">Utilize the checkboxes to see different combinations of characters and their most
-        popular words!</p>>
+        popular words! Hover over words to see character use breakdown.</p>>
     <div id="top_words_list" style="margin: auto; width: 80%;"></div>
     </br>
     <hr>
     <h2 class="w3-opacity"><i>Who are the more positive and negative characters? </i></h2>
-    <p class="w3-justify">Utilize the checkboxes to see how "happy"(higher) or "sad"(lower) your favorite characters are!</p>
+    <p class="w3-justify">Utilize the checkboxes to see how "happy"(higher) or "sad"(lower) your favorite characters are!. The bigger the area above/below the 0 line, the more positive or negative they are...</p>
     <svg id="sentiment_violins" style="display: block; margin: auto;"></svg>
     </br>
     <hr>
@@ -836,6 +836,27 @@
                 .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
                 .text("Polarity");
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", -0)
+                .attr("x", 250)
+                .attr("dy", ".75em")
+                .text("Area Above 0 = Positive!");
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y",470)
+                .attr("x", 250)
+                .attr("dy", ".75em")
+                .text("Area Below 0 = Negative!");
+            var middle = svg1.append("line")
+                .attr("x1", 0)
+                .attr("y1", y(0))
+                .attr("x2", width)
+                .attr("y2", y(0))
+                .attr("stroke-width", 2)
+                .attr("stroke", "black");
             histogram = d3.histogram()
                 .domain(y.domain())
                 .thresholds(y.ticks(20))
@@ -1043,8 +1064,6 @@
                 .text(function (d) { return d["ep_name"] });
         })
 
-
-       // document.body.insertBefore(document.createElement("br"), document.getElementById("episodeSentiment"));
 
     </script>
 
